@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: appthree-ingress
+  namespace: version2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: vthree.tjonathan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: version3-service
+                port:
+                  number: 8081

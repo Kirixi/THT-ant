@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-version2
+  namespace: version2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-version2
+  template:
+    metadata:
+      labels:
+        app: app-version2
+    spec:
+      containers:
+        - name: app-version2
+          image: ghcr.io/kirixi/app-version2:{{.Values.imagetag}}
+          ports:
+          - containerPort: 8000
+      imagePullSecrets:
+        - name: ghcr-new-secret

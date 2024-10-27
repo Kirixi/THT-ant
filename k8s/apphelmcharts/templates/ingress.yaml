@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: version1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: vone.tjonathan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: version1-service
+                port:
+                  number: 3000

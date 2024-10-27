@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-version3
+  namespace: version3
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-version3
+  template:
+    metadata:
+      labels:
+        app: app-version3
+    spec:
+      containers:
+        - name: app-version3
+          image: ghcr.io/kirixi/app-version3:{{.Values.imagetag}}
+          ports:
+          - containerPort: 8081
+          env:
+            - name: DB_URI
+              value: "mongodb://mongo:mongo@mongodb.version3.svc.cluster.local:27017/?authSource=admin"
+            - name: DB_NAME
+              value: "site_logs"
+      imagePullSecrets:
+        - name: ghcr-new-secret
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  namespace: version3
+spec:
+  serviceName: "mongodb"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
