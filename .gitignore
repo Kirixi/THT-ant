@@ -6,3 +6,5 @@ version2/.env
 version3/db_data
 dist 
 .env
+
+**/.terraform/*
