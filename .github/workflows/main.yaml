@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to GHCR
+        run: |
+          docker login --username Kirixi --password ${{ secrets.GHRC_TOKEN }} ghcr.io
+
+      - name: Build App Version 1 image
+        run: |
+          docker build . --tag ghcr.io/kirixi/app-version1:${GITHUB_SHA::7}
+        working-directory: ./version1
+
+      - name: Build App Version 2 image
+        run: |
+          docker build . --tag ghcr.io/kirixi/app-version2:${GITHUB_SHA::7}
+        working-directory: ./version2
+
+      - name: Build App Version 3 image
+        run: |
+          docker build . --tag ghcr.io/kirixi/app-version3:${GITHUB_SHA::7}
+        working-directory: ./version3
+
+      - name: Push the images into GHCR
+        run: |
+          docker push ghcr.io/kirixi/app-version1:${GITHUB_SHA::7}
+          docker push ghcr.io/kirixi/app-version2:${GITHUB_SHA::7}
+          docker push ghcr.io/kirixi/app-version3:${GITHUB_SHA::7}
