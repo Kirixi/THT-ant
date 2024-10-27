@@ -1,0 +1,7 @@
+version1/node_modules
+version2/node_modules
+version3/node_modules
+version2/.env
+k8s/secret.yaml
+dist 
+.env

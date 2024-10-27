@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  webserver:
+    build: .
+    image: test-version3:latest
+    restart: always
+    ports:
+      - "8081"
+    environment:
+      - DB_URI=mongodb://mongo:mongo@mongo:27017/?authSource=admin
+      - DB_NAME=site_logs
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db_data/:/data/db/
