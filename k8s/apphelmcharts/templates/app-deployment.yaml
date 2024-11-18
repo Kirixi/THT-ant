@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app-version1
-          image: ghcr.io/kirixi/app-version1:{{.Values.imagetag}}
+          image: "ghcr.io/kirixi/app-version1:{{ .Values.imagetag }}"
           ports:
           - containerPort: 3000
       imagePullSecrets:
