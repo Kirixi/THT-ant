@@ -2,16 +2,16 @@ version: "3.8"
 services:
   webserver:
     build: .
-    image: test-version3:latest
+    image: v3-docker-compose:latest
     restart: always
     ports:
       - "8081:8081"
     environment:
       - DB_URI=mongodb://mongo:mongo@mongo:27017/?authSource=admin
       - DB_NAME=site_logs
-
+  ##connection string for mongodb atlas is mongodb://mongo:mongo@localhost:27017/?authSource=admin
   mongo:
-    image: mongo:latest
+    image: mongo:6.0
     container_name: mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
@@ -19,4 +19,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./new_db_data/:/data/db/
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

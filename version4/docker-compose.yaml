@@ -1,0 +1,32 @@
+services:
+  frontend:
+    image: ghcr.io/kirixi/lanfrontend-stable:latest
+    restart: always
+    ports:
+      - "3000:80"
+
+  webserver1:
+    image: ghcr.io/kirixi/lanserver-stable:latest
+    restart: always
+    ports:
+      - "8080"
+    deploy:
+      replicas: 2
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=lan
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - webserver1

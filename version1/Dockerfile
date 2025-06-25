@@ -1,5 +1,5 @@
 #Stage 1: Install dependencies
-FROM node:18 AS dependencies
+FROM node:20 AS dependencies
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ RUN npm install --only=production
 
 
 #Stage 2: Production stage
-FROM node:18-slim AS runtime
+FROM node:20-slim AS runtime
 
 # Set the working directory
 WORKDIR /app
@@ -24,6 +24,7 @@ COPY . .
 
 EXPOSE 3000
 
+ENV VARIABLE="this is for testing purposes only" 
 # Run the application
 CMD ["node", "app.js"]
 

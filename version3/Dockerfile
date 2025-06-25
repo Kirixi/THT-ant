@@ -22,8 +22,8 @@ COPY --from=dependencies /app/node_modules ./node_modules
 
 COPY . .
 
-# ENV CONNECTION_STRING="mongodb://mongo:mongo@localhost:27017/?authSource=admin" \
-#     DB_NAME="site_logs"
+ENV CONNECTION_STRING="mongodb://mongo:mongo@localhost:27017/?authSource=admin" \
+    DB_NAME="site_logs"
 
 EXPOSE 8081
 
